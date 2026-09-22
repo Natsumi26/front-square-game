@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 @Controller
 public class GameController {
 
@@ -18,9 +22,19 @@ public class GameController {
 
 
     @PostMapping("/games")
-    public String createGame(@RequestParam String gameType, Authentication authentication) {
+    public String createGame(        @RequestParam String gameType,
+                                     @RequestParam Integer playerCount,
+                                     @RequestParam Integer boardSize,
+                                     @RequestParam(required = false) UUID opponentId,
+                                     Authentication authentication) {
+        System.out.println("opponentId = " + opponentId);
+        Set<UUID> opponents = new HashSet<>();
 
-        gameApiService.createGame(gameType, authentication);
+        if (opponentId != null) {
+            opponents.add(opponentId);
+        }
+
+        gameApiService.createGame(gameType, playerCount, boardSize, opponents, authentication);
 
         return "redirect:/";
     }

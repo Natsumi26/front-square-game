@@ -1,0 +1,11 @@
+<header class="navbar" th:fragment="header">
+    <h1>Square Games</h1>
+
+    <nav >
+        <a th:href="@{/}">Accueil</a>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Déconnexion</button>
+        </form>
+    </nav>
+</header>

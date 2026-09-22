@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Connexion - Square Games</title>
+<head th:replace="~{fragments/head.html}">
 </head>
-<body>
-    <h1>Se connecter</h1>
+<body class="login-page">
+<main class="login-container">
+    <h1>Square Games</h1>
 
-    <form method="POST" action="/login">
+    <p>Connectez-vous à votre compte</p>
+
+    <div class="login-error"
+         th:if="${param.error}">
+        Nom d'utilisateur ou mot de passe incorrect.
+    </div>
+
+    <form class="login-form" method="POST" th:action="@{/login}">
         <div>
-            <label for="identifiant">Votre identifiant : </label>
-            <input id="identifiant" type="text" name="username" Placeholder="Votre identifiant" required/>
+            <label for="identifiant">Nom d'utilisateur : </label>
+            <input id="identifiant" type="text" name="username" required/>
         </div>
         <div>
-            <label for="password">Votre mot de passe : </label>
-            <input id="password" type="password" name="password" Placeholder="Votre mot de passe" required/>
+            <label for="password">Mot de passe : </label>
+            <input id="password" type="password" name="password" required/>
         </div>
 
         <button type="submit">Se connecter</button>
 
     </form>
+
+</main>
+
 </body>
 </html>

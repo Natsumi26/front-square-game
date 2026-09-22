@@ -1,93 +1,102 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Square Game</title>
+<head th:replace="~{fragments/head.html}">
 </head>
+
 <body>
-    <h1>Square Game</h1>
+    <header th:replace="~{fragments/header.html}"></header>
+    <main>
 
-    <p>Bienvenue <span th:text="${username}"></span> sur l'application</p>
+        <p>Bienvenue <span th:text="${username}"></span> sur l'application</p>
 
-    <h2>Mes jeux</h2>
+        <h2>Mes jeux</h2>
 
-    <div th:if="${#lists.isEmpty(games)}">
-        <p>Aucun jeu disponible</p>
-    </div>
+        <div th:if="${#lists.isEmpty(games)}">
+            <p>Aucun jeu disponible</p>
+        </div>
 
-<div th:unless="${#lists.isEmpty(games)}">
-    <div th:each="game : ${games}">
-        <h3 th:text="${game.getGameFactoryId()}"></h3>
-        <p>
-            ID :
-            <span th:text="${game.getGameId()}"></span>
-        </p>
+        <div class="game-list" th:unless="${#lists.isEmpty(games)}">
+            <div class="game-card" th:each="game : ${games}">
+                <h3 th:text="${game.getFactoryId()}"></h3>
+                <p>
+                    ID :
+                    <span th:text="${game.getId()}"></span>
+                </p>
 
-        <p>
-            Status :
-            <span th:text="${game.getStatus()}"></span>
-        </p>
+                <p>
+                    Status :
+                    <span th:text="${game.getStatus()}"></span>
+                </p>
 
-    </div>
-</div>
-<div>
-    <button type="button" onclick="document.getElementById('createGameModal').showModal()">Créer une nouvelle partie</button>
-</div>
+                <a th:href="@{/games/{id}(id=${game.id})}">
+                    Jouer
+                </a>
 
-<!-- Modal de création d'une nouvelle partie -->
-    <dialog id="createGameModal">
-        <h2>Créer une partie</h2>
+            </div>
+        </div>
+        <div>
+            <button class="create-button" type="button" onclick="document.getElementById('createGameModal').showModal()">Créer une nouvelle partie</button>
+        </div>
 
-        <section>
-            <form method="POST" action="/games">
-                <div>
-                    <label for="gameType">Type de jeu : </label>
+        <!-- Modal de création d'une nouvelle partie -->
+        <dialog id="createGameModal">
+            <h2>Créer une partie</h2>
 
-                    <select name="gameType" id="gameType" required>
-                        <option value="tictactoe">Tic Tac Toe</option>
-                        <option value="connectfour">Connect Four</option>
-                        <option value="taquin">Taquin</option>
-                    </select>
-
-                    <label for="playerCount">Nombre de joueurs :</label>
-                    <input
-                            type="number"
-                            id="playerCount"
-                            name="playerCount"
-                            readonly
-                    >
-
-                    <label for="boardSize">Taille du plateau :</label>
-                    <select name="boardSize" id="boardSize" required>
-
-                    </select>
-
-                    <label for="opponentIds">
-                        Identifiants des adversaires :
-                    </label>
-
-                    <input
-                            type="text"
-                            id="opponentIds"
-                            name="opponentIds"
-                            placeholder="UUID des adversaires"
-                    >
-
+            <section>
+                <form method="POST" action="/games">
                     <div>
-                        <button type="button" onclick="document.getElementById('createGameModal').close()">Annuler</button>
-                        <button type="submit">Créer</button>
+                        <label for="gameType">Type de jeu : </label>
+
+                        <select name="gameType" id="gameType" required>
+                            <option value="tictactoe">Tic Tac Toe</option>
+                            <option value="connectfour">Connect Four</option>
+                            <option value="taquin">Taquin</option>
+                        </select>
+
+                        <label for="playerCount">Nombre de joueurs :</label>
+                        <input
+                                type="number"
+                                id="playerCount"
+                                name="playerCount"
+                                readonly
+                        >
+
+                        <label for="boardSize">Taille du plateau :</label>
+                        <select name="boardSize" id="boardSize" required>
+
+                        </select>
+
+                        <div id="opponentsContainer">
+                            <label for="opponentIds">
+                                Adversaire :
+                            </label>
+
+                            <select name="opponentId" id="opponentIds">
+                                <option value="">-- Choisir un adversaire --</option>
+                                <option th:each="user : ${users}" th:if="${user.username != username}" th:value="${user.id}" th:text="${user.username}"></option>
+                            </select>
+
+                        </div>
+
+
+                        <div>
+                            <button type="button" onclick="document.getElementById('createGameModal').close()">Annuler</button>
+                            <button type="submit">Créer</button>
+                        </div>
                     </div>
-                </div>
 
-            </form>
-        </section>
-    </dialog>
+                </form>
+            </section>
+        </dialog>
+    </main>
 
+<footer th:replace="~{fragments/footer.html}"></footer>
 
 <script>
     const gameType = document.getElementById("gameType");
     const playerCount = document.getElementById("playerCount");
     const boardSize = document.getElementById("boardSize");
+    const opponentsContainer = document.getElementById("opponentsContainer");
 
     function updateGameForm() {
 
@@ -110,6 +119,8 @@
         } else if (gameType.value === "taquin") {
 
             playerCount.value = 1;
+
+            opponentsContainer.style.display = "none";
 
             for (let size = 3; size <= 8; size++) {
                 addBoardSizeOption(size);

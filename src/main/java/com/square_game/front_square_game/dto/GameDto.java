@@ -1,24 +1,24 @@
 package com.square_game.front_square_game.dto;
 
 public class GameDto {
-    private String gameId;
-    private String gameFactoryId;
+    private String id;
+    private String factoryId;
     private String status;
 
-    public String getGameId() {
-        return gameId;
+    public String getId() {
+        return id;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getGameFactoryId() {
-        return gameFactoryId;
+    public String getFactoryId() {
+        return factoryId;
     }
 
-    public void setGameFactoryId(String gameFactoryId) {
-        this.gameFactoryId = gameFactoryId;
+    public void setFactoryId(String factoryId) {
+        this.factoryId = factoryId;
     }
 
     public String getStatus() {

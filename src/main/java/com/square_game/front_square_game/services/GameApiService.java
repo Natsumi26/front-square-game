@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class GameApiService {
@@ -35,13 +37,17 @@ public class GameApiService {
                 .body(new ParameterizedTypeReference<List<GameDto>>() {});
     }
 
-    public void createGame(String gameType, Authentication authentication) {
+    public void createGame(String gameType, Integer playerCount, Integer boardSize, Set<UUID> opponentIds, Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         String token = userDetails.getToken();
 
         CreateGameRequest  createGameRequest = new CreateGameRequest();
         createGameRequest.setType(gameType);
+        createGameRequest.setPlayerCount(playerCount);
+        createGameRequest.setBoardSize(boardSize);
+        createGameRequest.setOpponentIds(opponentIds);
+
 
         restClient.post()
                 .uri("/games")
