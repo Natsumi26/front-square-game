@@ -2,14 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
+    <title>Connexion - Square Games</title>
 </head>
 <body>
     <h1>Se connecter</h1>
 
     <form method="POST" action="/login">
-        <input type="text" Placeholder="Votre identifiant"/>
-        <input type="password" Placeholder="Votre mot de passe"/>
+        <div>
+            <label for="identifiant">Votre identifiant : </label>
+            <input id="identifiant" type="text" name="username" Placeholder="Votre identifiant" required/>
+        </div>
+        <div>
+            <label for="password">Votre mot de passe : </label>
+            <input id="password" type="password" name="password" Placeholder="Votre mot de passe" required/>
+        </div>
+
+        <button type="submit">Se connecter</button>
+
     </form>
 </body>
 </html>

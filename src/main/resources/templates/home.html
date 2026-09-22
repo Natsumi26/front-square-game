@@ -7,7 +7,128 @@
 <body>
     <h1>Square Game</h1>
 
-    <p>Bienvenue sur l'application</p>
+    <p>Bienvenue <span th:text="${username}"></span> sur l'application</p>
 
+    <h2>Mes jeux</h2>
+
+    <div th:if="${#lists.isEmpty(games)}">
+        <p>Aucun jeu disponible</p>
+    </div>
+
+<div th:unless="${#lists.isEmpty(games)}">
+    <div th:each="game : ${games}">
+        <h3 th:text="${game.getGameFactoryId()}"></h3>
+        <p>
+            ID :
+            <span th:text="${game.getGameId()}"></span>
+        </p>
+
+        <p>
+            Status :
+            <span th:text="${game.getStatus()}"></span>
+        </p>
+
+    </div>
+</div>
+<div>
+    <button type="button" onclick="document.getElementById('createGameModal').showModal()">Créer une nouvelle partie</button>
+</div>
+
+<!-- Modal de création d'une nouvelle partie -->
+    <dialog id="createGameModal">
+        <h2>Créer une partie</h2>
+
+        <section>
+            <form method="POST" action="/games">
+                <div>
+                    <label for="gameType">Type de jeu : </label>
+
+                    <select name="gameType" id="gameType" required>
+                        <option value="tictactoe">Tic Tac Toe</option>
+                        <option value="connectfour">Connect Four</option>
+                        <option value="taquin">Taquin</option>
+                    </select>
+
+                    <label for="playerCount">Nombre de joueurs :</label>
+                    <input
+                            type="number"
+                            id="playerCount"
+                            name="playerCount"
+                            readonly
+                    >
+
+                    <label for="boardSize">Taille du plateau :</label>
+                    <select name="boardSize" id="boardSize" required>
+
+                    </select>
+
+                    <label for="opponentIds">
+                        Identifiants des adversaires :
+                    </label>
+
+                    <input
+                            type="text"
+                            id="opponentIds"
+                            name="opponentIds"
+                            placeholder="UUID des adversaires"
+                    >
+
+                    <div>
+                        <button type="button" onclick="document.getElementById('createGameModal').close()">Annuler</button>
+                        <button type="submit">Créer</button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+    </dialog>
+
+
+<script>
+    const gameType = document.getElementById("gameType");
+    const playerCount = document.getElementById("playerCount");
+    const boardSize = document.getElementById("boardSize");
+
+    function updateGameForm() {
+
+        boardSize.innerHTML = "";
+
+        if (gameType.value === "tictactoe") {
+
+            playerCount.value = 2;
+
+            for (let size = 3; size <= 5; size++) {
+                addBoardSizeOption(size);
+            }
+
+        } else if (gameType.value === "connectfour") {
+
+            playerCount.value = 2;
+
+            addBoardSizeOption(7);
+
+        } else if (gameType.value === "taquin") {
+
+            playerCount.value = 1;
+
+            for (let size = 3; size <= 8; size++) {
+                addBoardSizeOption(size);
+            }
+        }
+    }
+
+    function addBoardSizeOption(size) {
+        const option = document.createElement("option");
+
+        option.value = size;
+        option.textContent = size;
+
+        boardSize.appendChild(option);
+    }
+
+    gameType.addEventListener("change", updateGameForm);
+
+    updateGameForm();
+</script>
 </body>
 </html>
