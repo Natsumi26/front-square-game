@@ -1,7 +1,9 @@
 package com.square_game.front_square_game.services;
 
+import com.square_game.front_square_game.dto.CellPositionDto;
 import com.square_game.front_square_game.dto.CreateGameRequest;
 import com.square_game.front_square_game.dto.GameDto;
+import com.square_game.front_square_game.dto.MoveParamsDto;
 import com.square_game.front_square_game.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -53,6 +55,75 @@ public class GameApiService {
                 .uri("/games")
                 .header("Authorization", "Bearer " + token)
                 .body(createGameRequest)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public GameDto getGame(UUID gameId, Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String token = userDetails.getToken();
+
+        return restClient.get()
+                .uri("/games/{gameId}", gameId)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .body(GameDto.class);
+    }
+
+    public Set<CellPositionDto> getPossibleMoves(
+            Authentication authentication,
+            UUID gameId
+    ) {
+        CustomUserDetails userDetails =
+                (CustomUserDetails) authentication.getPrincipal();
+
+        String token = userDetails.getToken();
+
+        return restClient.get()
+                .uri("/games/{gameId}/possiblemoves", gameId)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .body(new ParameterizedTypeReference<Set<CellPositionDto>>() {});
+    }
+
+    public Set<CellPositionDto> getPossibleMovesForToken(
+            Authentication authentication,
+            UUID gameId,
+            int x,
+            int y
+    ) {
+        CustomUserDetails userDetails =
+                (CustomUserDetails) authentication.getPrincipal();
+
+        String token = userDetails.getToken();
+
+        return restClient.get()
+                .uri("/games/{gameId}/tokens/{x}/{y}/possiblemoves",
+                        gameId, x, y)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .body(new ParameterizedTypeReference<Set<CellPositionDto>>() {});
+    }
+
+    public void playMove(
+            Authentication authentication,
+            UUID gameId,
+            CellPositionDto from,
+            CellPositionDto to
+    ) {
+        CustomUserDetails userDetails =
+                (CustomUserDetails) authentication.getPrincipal();
+
+        String token = userDetails.getToken();
+
+        MoveParamsDto moveParams = new MoveParamsDto();
+        moveParams.setFrom(from);
+        moveParams.setTo(to);
+
+        restClient.post()
+                .uri("/games/{gameId}/moves", gameId)
+                .header("Authorization", "Bearer " + token)
+                .body(moveParams)
                 .retrieve()
                 .toBodilessEntity();
     }

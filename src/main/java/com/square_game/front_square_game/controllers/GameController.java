@@ -1,11 +1,14 @@
 package com.square_game.front_square_game.controllers;
 
+import com.square_game.front_square_game.dto.CellPositionDto;
+import com.square_game.front_square_game.dto.GameDto;
+import com.square_game.front_square_game.dto.MoveParamsDto;
 import com.square_game.front_square_game.security.CustomUserDetails;
 import com.square_game.front_square_game.services.GameApiService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,5 +40,55 @@ public class GameController {
         gameApiService.createGame(gameType, playerCount, boardSize, opponents, authentication);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/games/{gameId}")
+    public String showGame(@PathVariable("gameId") UUID gameId, Authentication authentication, Model model) {
+        GameDto game = gameApiService.getGame(gameId, authentication);
+        model.addAttribute("game", game);
+        return "game";
+    }
+
+    // Route pour tictactoe et connectFour
+    @GetMapping("/games/{gameId}/possiblemoves")
+    @ResponseBody
+    public Set<CellPositionDto> getPossibleMoves(
+            @PathVariable UUID gameId,
+            Authentication authentication
+    ) {
+        return gameApiService.getPossibleMoves(authentication, gameId);
+    }
+
+//    route pour le taquin
+    @GetMapping("/games/{gameId}/tokens/{x}/{y}/possiblemoves")
+    @ResponseBody
+    public Set<CellPositionDto> getPossibleMovesForToken(
+            @PathVariable UUID gameId,
+            @PathVariable int x,
+            @PathVariable int y,
+            Authentication authentication
+    ) {
+        return gameApiService.getPossibleMovesForToken(
+                authentication,
+                gameId,
+                x,
+                y
+        );
+    }
+
+    @PostMapping("/games/{gameId}/moves")
+    @ResponseBody
+    public void playMove(
+            @PathVariable UUID gameId,
+            @RequestBody MoveParamsDto moveParams,
+            Authentication authentication
+    ) {
+
+        gameApiService.playMove(
+                authentication,
+                gameId,
+                moveParams.getFrom(),
+                moveParams.getTo()
+        );
     }
 }
