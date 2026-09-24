@@ -60,9 +60,8 @@
                         <label for="gameType">Type de jeu : </label>
 
                         <select name="gameType" id="gameType" required>
-                            <option value="tictactoe">Tic Tac Toe</option>
-                            <option value="connectfour">Connect Four</option>
-                            <option value="taquin">Taquin</option>
+                            <option value="">-- Choisir un jeu --</option>
+                            <option th:each="listgame : ${listGames}"  th:value="${listgame}" th:text="${listgame}"></option>
                         </select>
 
                         <label for="playerCount">Nombre de joueurs :</label>

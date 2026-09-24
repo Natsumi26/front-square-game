@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -133,5 +134,13 @@ public class GameApiService {
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .toBodilessEntity();
+    }
+
+    public Collection<String> getListGame() {
+
+        return restClient.get()
+                .uri("/listegames")
+                .retrieve()
+                .body(new  ParameterizedTypeReference<Collection<String>>() {});
     }
 }

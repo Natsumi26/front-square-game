@@ -107,4 +107,5 @@ public class GameController {
 
         return "redirect:/";
     }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,10 +34,12 @@ public class HomeController {
 
         Collection<UserDto> users = userApiService.getUsers(authentication);
 
+        Collection<String> listGames = gameApiService.getListGame();
 
         model.addAttribute("username",customUserDetails.getUsername());
         model.addAttribute("games", games);
         model.addAttribute("users", users);
+        model.addAttribute("listGames", listGames);
 
         return "home";
     }
