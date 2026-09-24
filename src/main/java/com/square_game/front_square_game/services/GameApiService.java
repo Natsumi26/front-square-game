@@ -1,9 +1,6 @@
 package com.square_game.front_square_game.services;
 
-import com.square_game.front_square_game.dto.CellPositionDto;
-import com.square_game.front_square_game.dto.CreateGameRequest;
-import com.square_game.front_square_game.dto.GameDto;
-import com.square_game.front_square_game.dto.MoveParamsDto;
+import com.square_game.front_square_game.dto.*;
 import com.square_game.front_square_game.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -59,7 +56,7 @@ public class GameApiService {
                 .toBodilessEntity();
     }
 
-    public GameDto getGame(UUID gameId, Authentication authentication) {
+    public GameResponseDto getGame(UUID gameId, Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String token = userDetails.getToken();
 
@@ -67,7 +64,7 @@ public class GameApiService {
                 .uri("/games/{gameId}", gameId)
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
-                .body(GameDto.class);
+                .body(GameResponseDto.class);
     }
 
     public Set<CellPositionDto> getPossibleMoves(
@@ -124,6 +121,16 @@ public class GameApiService {
                 .uri("/games/{gameId}/moves", gameId)
                 .header("Authorization", "Bearer " + token)
                 .body(moveParams)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void deleteGame(UUID gameId, Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String token = userDetails.getToken();
+        restClient.delete()
+                .uri("/games/{gameId}", gameId)
+                .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .toBodilessEntity();
     }

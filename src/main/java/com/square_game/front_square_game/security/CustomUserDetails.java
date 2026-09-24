@@ -6,18 +6,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class CustomUserDetails implements UserDetails {
 
+    private final UUID userId;
     private final String username;
     private final String token;
 
-    public CustomUserDetails(String username, String token) {
+
+    public CustomUserDetails(UUID userId, String username, String token) {
+        this.userId = userId;
         this.username = username;
         this.token = token;
     }
 
     public String getToken() { return token; }
+
+    public UUID getUserId() { return userId; }
 
 
     @Override

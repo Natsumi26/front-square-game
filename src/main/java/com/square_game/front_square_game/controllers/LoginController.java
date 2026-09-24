@@ -13,14 +13,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.UUID;
 
 @Controller
 public class LoginController {
 
     private final UserApiService userApiService;
+    private final ObjectMapper objectMapper;
 
-    public LoginController(UserApiService userApiService) {
+    public LoginController(UserApiService userApiService, ObjectMapper objectMapper) {
         this.userApiService = userApiService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/login")
@@ -34,7 +42,20 @@ public class LoginController {
        try{
            String token = userApiService.login(username, password);
 
-           CustomUserDetails userDetails = new CustomUserDetails(username,token);
+           String[] parts = token.split("\\.");
+
+           String payload = new String(
+                   Base64.getUrlDecoder().decode(parts[1]),
+                   StandardCharsets.UTF_8
+           );
+
+           JsonNode json = objectMapper.readTree(payload);
+
+           UUID userId = UUID.fromString(
+                   json.get("userId").asString()
+           );
+
+           CustomUserDetails userDetails = new CustomUserDetails(userId, username, token);
 
            UsernamePasswordAuthenticationToken  authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 

@@ -174,7 +174,7 @@ function highlightPossibleMoves(possibleMoves) {
         // =========================
         // CONNECT FOUR
         // =========================
-        if ((gameType === "connect4" && move.y === -1)||(gameType === "tictactoe")) {
+        if ((gameType === "connect4" && move.y === -1) || (gameType === "tictactoe")) {
 
             const cells = board.querySelectorAll(
                 `.game-cell[data-x="${move.x}"]`

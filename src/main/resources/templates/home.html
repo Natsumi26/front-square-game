@@ -27,10 +27,22 @@
                     Status :
                     <span th:text="${game.getStatus()}"></span>
                 </p>
+                <div class="game-actions">
+                    <a th:href="@{/games/{id}(id=${game.id})}">
+                        Jouer
+                    </a>
+                    <form th:action="@{/games/{id}/delete(id=${game.id})}"
+                          method="post"
+                          style="display:inline"
+                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette partie ?');">
 
-                <a th:href="@{/games/{id}(id=${game.id})}">
-                    Jouer
-                </a>
+                        <button type="submit" class="delete-button">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                    </form>
+                </div>
+
 
             </div>
         </div>
@@ -141,5 +153,6 @@
 
     updateGameForm();
 </script>
+    <script src="https://kit.fontawesome.com/5bef22b054.js" crossorigin="anonymous"></script>
 </body>
 </html>

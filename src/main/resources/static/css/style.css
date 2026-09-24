@@ -26,6 +26,7 @@ h3 {
 }
 
 
+
 /* =========================
    Navbar
 ========================= */
@@ -86,6 +87,21 @@ button:hover {
 .create-button {
     margin-top: 20px;
 }
+/* =========================
+   Bouton delete
+========================= */
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #bb2d3b;
+}
 
 
 /* =========================
@@ -114,6 +130,13 @@ button:hover {
 
 .game-card p {
     margin: 8px 0;
+}
+/* =========================
+   Game action
+========================= */
+.game-actions{
+    display: flex;
+    justify-content: space-between;
 }
 
 

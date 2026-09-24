@@ -17,10 +17,25 @@
         <span th:text="${game.status}"></span>
     </p>
 
+
     <p>
         Taille du plateau :
         <span th:text="${game.boardSize}"></span>
     </p>
+
+    <div th:if="${winnerId != null}" class="game-result">
+
+        <h2>🏆 Partie terminée</h2>
+
+        <p th:if="${winnerId.equals(userId)}">
+            Vous avez gagné !
+        </p>
+
+        <p th:unless="${winnerId.equals(userId)}">
+            Votre adversaire a gagné.
+        </p>
+
+    </div>
 
     <div id="game-board"
          th:data-game-id="${game.id}"
@@ -42,5 +57,6 @@
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
 <script th:src="@{/js/game.js}"></script>
+<script src="https://kit.fontawesome.com/5bef22b054.js" crossorigin="anonymous"></script>
 </body>
 </html>

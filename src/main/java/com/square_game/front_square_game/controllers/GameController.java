@@ -2,6 +2,7 @@ package com.square_game.front_square_game.controllers;
 
 import com.square_game.front_square_game.dto.CellPositionDto;
 import com.square_game.front_square_game.dto.GameDto;
+import com.square_game.front_square_game.dto.GameResponseDto;
 import com.square_game.front_square_game.dto.MoveParamsDto;
 import com.square_game.front_square_game.security.CustomUserDetails;
 import com.square_game.front_square_game.services.GameApiService;
@@ -44,8 +45,16 @@ public class GameController {
 
     @GetMapping("/games/{gameId}")
     public String showGame(@PathVariable("gameId") UUID gameId, Authentication authentication, Model model) {
-        GameDto game = gameApiService.getGame(gameId, authentication);
-        model.addAttribute("game", game);
+
+        GameResponseDto response = gameApiService.getGame(gameId, authentication);
+
+        CustomUserDetails userDetails =
+                (CustomUserDetails) authentication.getPrincipal();
+
+        model.addAttribute("game", response.getGame());
+        model.addAttribute("winnerId", response.getWinnerId());
+        model.addAttribute("userId", userDetails.getUserId());
+
         return "game";
     }
 
@@ -90,5 +99,12 @@ public class GameController {
                 moveParams.getFrom(),
                 moveParams.getTo()
         );
+    }
+
+    @PostMapping("/games/{gameId}/delete")
+    public String deleteGame(@PathVariable UUID gameId, Authentication authentication) {
+        gameApiService.deleteGame(gameId, authentication);
+
+        return "redirect:/";
     }
 }
