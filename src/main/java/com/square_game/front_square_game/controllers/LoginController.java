@@ -67,7 +67,7 @@ public class LoginController {
 
            request.getSession(true).setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
-           return "redirect:/";
+           return "redirect:/home";
        } catch(Exception e){
            System.out.println( "Erreur lors de la connexion : " + e.getMessage() );
            model.addAttribute("error","Nom d'utilisateur ou mot de passe incorrect.");

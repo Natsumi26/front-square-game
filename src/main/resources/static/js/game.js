@@ -2,8 +2,29 @@ const board = document.getElementById("game-board");
 const gameId = board.dataset.gameId;
 const size = Number(board.dataset.size);
 const gameType = board.dataset.gameType;
+const userId = board.dataset.userId;
+const currentPlayerId = board.dataset.currentPlayerId;
+
+const isMyTurn = userId === currentPlayerId;
+
+const turnMessage = document.getElementById("turn-message");
+
+if (isMyTurn) {
+    turnMessage.textContent = "🟢 À votre tour";
+} else {
+    turnMessage.textContent = "🔴 Tour de l'adversaire";
+}
 
 console.log("Type de jeu :", gameType);
+console.log("userId :", userId);
+console.log("Joueur actuel :", currentPlayerId);
+console.log("Est-ce mon tour ?", isMyTurn);
+
+
+
+
+
+
 
 let selectedPosition = null;
 
@@ -131,7 +152,20 @@ tokens.forEach(token => {
     );
 
     if (cell) {
-        cell.textContent = token.textContent;
+        switch (token.textContent) {
+            case "Y":
+                cell.innerHTML = '<i class="fa-solid fa-circle fa-2xl" style="color: rgb(255, 212, 59);"></i>';
+                break;
+            case "R":
+                cell.innerHTML = '<i class="fa-solid fa-circle fa-2xl" style="color: rgb(255, 59, 59);"></i>';
+                break;
+            case "X":
+                cell.innerHTML = '<i class="fa-solid fa-x fa-2xl"></i>';
+                break;
+            case "0":
+                cell.innerHTML = '<i class="fa-solid fa-o fa-2xl"></i>';
+                break;
+        }
     }
 
     token.remove();
@@ -169,12 +203,16 @@ async function getPossibleMovesForToken(x, y) {
 
 function highlightPossibleMoves(possibleMoves) {
 
+    if (!isMyTurn) {
+        return;
+    }
+
     possibleMoves.forEach(move => {
 
         // =========================
         // CONNECT FOUR
         // =========================
-        if ((gameType === "connect4" && move.y === -1) || (gameType === "tictactoe")) {
+        if ((gameType === "connect4" && move.y === -1)) {
 
             const cells = board.querySelectorAll(
                 `.game-cell[data-x="${move.x}"]`
@@ -202,39 +240,76 @@ function highlightPossibleMoves(possibleMoves) {
             return;
         }
 
-
         // =========================
         // TAQUIN
         // =========================
-        const cell = board.querySelector(
-            `.game-cell[data-x="${move.x}"][data-y="${move.y}"]`
-        );
+        if(gameType === "taquin") {
+            const cell = board.querySelector(
+                `.game-cell[data-x="${move.x}"][data-y="${move.y}"]`
+            );
 
-        if (cell) {
-            cell.classList.add("possible-move");
+            if (cell) {
+                cell.classList.add("possible-move");
 
-            const from = {
-                x: selectedPosition.x,
-                y: selectedPosition.y
+                const from = {
+                    x: selectedPosition.x,
+                    y: selectedPosition.y
+                }
+
+                cell.addEventListener("click", async (event) => {
+                    event.stopPropagation();
+
+                    const to = {
+                        x: move.x,
+                        y: move.y
+                    };
+
+                    console.log("Coup joué :", {
+                        from: from,
+                        to: to
+                    });
+
+                    await playMove(from, to);
+                }, {once: true});
+
+                return;
+            }
+        }
+
+        // =========================
+        // TICTACTOE
+        // =========================
+        if (gameType === "tictactoe") {
+
+            const cell = board.querySelector(
+                `.game-cell[data-x="${move.x}"][data-y="${move.y}"]`
+            );
+
+            if (cell) {
+
+                cell.classList.add("possible-move");
+
+                cell.addEventListener("click", async () => {
+
+                    const to = {
+                        x: move.x,
+                        y: move.y
+                    };
+
+                    console.log("Coup TicTacToe :", {
+                        from: null,
+                        to: to
+                    });
+
+                    await playMove(null, to);
+
+                }, { once: true });
             }
 
-            cell.addEventListener("click", async (event) => {
-                event.stopPropagation();
-
-                const to = {
-                    x: move.x,
-                    y: move.y
-                };
-
-                console.log("Coup joué :", {
-                    from: from,
-                    to: to
-                });
-
-                await playMove(from, to);
-            }, { once: true });
+            return;
         }
     });
+
 }
 
 async function playMove(from, to) {

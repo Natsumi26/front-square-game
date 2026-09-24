@@ -1,6 +1,7 @@
 package com.square_game.front_square_game.controllers;
 
 import com.square_game.front_square_game.dto.GameDto;
+import com.square_game.front_square_game.dto.GameTypeDto;
 import com.square_game.front_square_game.dto.UserDto;
 import com.square_game.front_square_game.security.CustomUserDetails;
 import com.square_game.front_square_game.services.GameApiService;
@@ -26,6 +27,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("/home")
     public String home(Authentication authentication, Model model) {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -34,7 +40,7 @@ public class HomeController {
 
         Collection<UserDto> users = userApiService.getUsers(authentication);
 
-        Collection<String> listGames = gameApiService.getListGame();
+        Collection<GameTypeDto> listGames = gameApiService.getListGame();
 
         model.addAttribute("username",customUserDetails.getUsername());
         model.addAttribute("games", games);

@@ -1,11 +1,39 @@
 <header class="navbar" th:fragment="header">
-    <h1>Square Games</h1>
+    <div class="logo">
+        <a th:href="@{/}">
+            <i class="fa-solid fa-gamepad"></i>  Square Games
+        </a>
+    </div>
 
     <nav >
         <a th:href="@{/}">Accueil</a>
 
-        <form th:action="@{/logout}" method="post">
-            <button type="submit">Déconnexion</button>
+        <!-- Visible uniquement si connecté -->
+        <a th:if="${#authorization.expression('isAuthenticated()')}"
+           th:href="@{/home}">
+            Jeux
+        </a>
+
+        <!-- Si NON connecté -->
+        <a th:if="${#authorization.expression('!isAuthenticated()')}"
+           th:href="@{/login}">
+            Se connecter
+        </a>
+
+        <a th:if="${#authorization.expression('!isAuthenticated()')}"
+           th:href="@{/register}">
+            S'inscrire
+        </a>
+
+        <!-- Si connecté -->
+        <form th:if="${#authorization.expression('isAuthenticated()')}"
+              th:action="@{/logout}"
+              method="post">
+
+            <button class="btn" type="submit">
+                Se déconnecter
+            </button>
+
         </form>
     </nav>
 </header>

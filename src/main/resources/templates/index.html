@@ -1,0 +1,106 @@
+<head th:replace="~{fragments/head.html}">
+</head>
+
+<body>
+<header th:replace="~{fragments/header.html}">
+
+</header>
+<main>
+    <section class="hero">
+
+        <h2>Bienvenue sur Square Games</h2>
+
+        <p>
+            Jouez à vos jeux préférés directement depuis votre navigateur.
+        </p>
+
+        <div class="buttons">
+
+            <a href="/login" class="btn">
+                Se connecter
+            </a>
+
+            <a href="/register" class="btn">
+                S'inscrire
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <section class="games">
+
+        <h2>Nos jeux</h2>
+
+        <div class="game-list">
+
+            <article class="game-card">
+                <div class="game-icon">❌⭕</div>
+                <h3>Tic-Tac-Toe</h3>
+                <p>
+                    Affrontez un autre joueur et soyez
+                    le premier à aligner trois symboles.
+                </p>
+            </article>
+
+
+            <article class="game-card">
+                <div class="game-icon">🔴🟡</div>
+                <h3>Connect Four</h3>
+                <p>
+                    Alignez quatre jetons avant votre adversaire
+                    pour remporter la partie.
+                </p>
+            </article>
+
+
+            <article class="game-card">
+                <div class="game-icon">🧩</div>
+                <h3>Taquin</h3>
+                <p>
+                    Déplacez les pièces et résolvez le puzzle.
+                </p>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <section class="how-it-works">
+
+        <h2>Comment jouer ?</h2>
+
+        <div class="steps">
+
+            <div class="step">
+                <span>1</span>
+                <h3>Inscrivez-vous</h3>
+                <p>Créez votre compte gratuitement.</p>
+            </div>
+
+            <div class="step">
+                <span>2</span>
+                <h3>Choisissez votre jeu</h3>
+                <p>
+                    Sélectionnez le jeu auquel vous souhaitez jouer.
+                </p>
+            </div>
+
+            <div class="step">
+                <span>3</span>
+                <h3>Jouez</h3>
+                <p>
+                    Créez une partie et amusez-vous !
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+<footer th:replace="~{fragments/footer.html}"></footer>
+</body>
+</html>

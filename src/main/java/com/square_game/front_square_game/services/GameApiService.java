@@ -136,11 +136,11 @@ public class GameApiService {
                 .toBodilessEntity();
     }
 
-    public Collection<String> getListGame() {
+    public Collection<GameTypeDto> getListGame() {
 
         return restClient.get()
                 .uri("/listegames")
                 .retrieve()
-                .body(new  ParameterizedTypeReference<Collection<String>>() {});
+                .body(new  ParameterizedTypeReference<Collection<GameTypeDto>>() {});
     }
 }

@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragments/head :: head}">
 </head>
 
@@ -37,6 +34,7 @@
 
     </div>
 
+
     <div th:if="${(winnerId != null and winnerId.equals(userId))
           or (game.factoryId.equals('15 puzzle') and game.status.equals('TERMINATED'))}"
          id="victory-popup"
@@ -58,10 +56,14 @@
         <div id="confetti-container"></div>
     </div>
 
+    <div id="turn-message"></div>
+
     <div id="game-board"
          th:data-game-id="${game.id}"
          th:data-size="${game.boardSize}"
          th:data-game-type="${game.factoryId}"
+         th:data-user-id="${userId}"
+         th:data-current-player-id="${game.currentPlayerId}"
          class="game-board">
 
         <div th:each="entry : ${game.board}"

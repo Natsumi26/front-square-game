@@ -1,103 +1,144 @@
-<!DOCTYPE html>
-<html lang="fr">
 <head th:replace="~{fragments/head.html}">
 </head>
 
 <body>
     <header th:replace="~{fragments/header.html}"></header>
-    <main>
+    <main class="home-main">
 
-        <p>Bienvenue <span th:text="${username}"></span> sur l'application</p>
+        <section class="welcome-card">
 
-        <h2>Mes jeux</h2>
+            <div>
+                <p class="welcome-label">Bienvenue</p>
 
-        <div th:if="${#lists.isEmpty(games)}">
-            <p>Aucun jeu disponible</p>
-        </div>
+                <h1>
+                    Bonjour <span th:text="${username}"></span> 👋
+                </h1>
 
-        <div class="game-list" th:unless="${#lists.isEmpty(games)}">
-            <div class="game-card" th:each="game : ${games}">
-                <h3 th:text="${game.getFactoryId()}"></h3>
-                <p>
-                    ID :
-                    <span th:text="${game.getId()}"></span>
+                <p class="welcome-text">
+                    Retrouvez vos parties et commencez à jouer.
                 </p>
+            </div>
 
-                <p>
-                    Status :
-                    <span th:text="${game.getStatus()}"></span>
-                </p>
-                <div class="game-actions">
-                    <a th:href="@{/games/{id}(id=${game.id})}">
-                        Jouer
-                    </a>
-                    <form th:action="@{/games/{id}/delete(id=${game.id})}"
-                          method="post"
-                          style="display:inline"
-                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette partie ?');">
+            <div class="welcome-icon">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
 
-                        <button type="submit" class="delete-button">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+        </section>
 
-                    </form>
+
+        <section class="my-games">
+
+            <div class="section-title">
+
+                <div>
+                    <p class="section-label">Votre espace</p>
+                    <h2>Mes jeux</h2>
                 </div>
 
-
             </div>
-        </div>
-        <div>
-            <button class="create-button" type="button" onclick="document.getElementById('createGameModal').showModal()">Créer une nouvelle partie</button>
-        </div>
+
+
+            <div th:if="${#lists.isEmpty(games)}"
+                 class="empty-games">
+
+                <div class="empty-icon">
+                    <i class="fa-solid fa-dice"></i>
+                </div>
+
+                <h3>Aucune partie pour le moment</h3>
+
+                <p>
+                    Vous n'avez pas encore de partie.
+                    Créez-en une pour commencer à jouer !
+                </p>
+            </div>
+
+
+            <div class="game-list" th:unless="${#lists.isEmpty(games)}">
+                <div class="game-card" th:each="game : ${games}">
+                    <h3 th:text="${game.getFactoryId()}"></h3>
+                    <p>
+                        ID :
+                        <span th:text="${game.getId()}"></span>
+                    </p>
+
+                    <p>
+                        Status :
+                        <span th:text="${game.getStatus()}"></span>
+                    </p>
+                    <div class="game-actions">
+                        <a class="btn" th:href="@{/games/{id}(id=${game.id})}">
+                            Jouer
+                        </a>
+                        <form th:action="@{/games/{id}/delete(id=${game.id})}"
+                              method="post"
+                              style="display:inline"
+                              onsubmit="return confirm('Voulez-vous vraiment supprimer cette partie ?');">
+
+                            <button type="submit" class="delete-button">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="home-button" type="button" onclick="document.getElementById('createGameModal').showModal()"><i class="fa-solid fa-plus"></i>  Créer une nouvelle partie</button>
+            </div>
+        </section>
 
         <!-- Modal de création d'une nouvelle partie -->
-        <dialog id="createGameModal">
-            <h2>Créer une partie</h2>
+        <dialog  id="createGameModal">
+            <section  >
+                <h1>Créer une partie</h1>
 
-            <section>
-                <form method="POST" action="/games">
-                    <div>
-                        <label for="gameType">Type de jeu : </label>
+                <section>
+                    <form method="POST" action="/games">
+                        <div>
+                            <label for="gameType">Type de jeu : </label>
 
-                        <select name="gameType" id="gameType" required>
-                            <option value="">-- Choisir un jeu --</option>
-                            <option th:each="listgame : ${listGames}"  th:value="${listgame}" th:text="${listgame}"></option>
-                        </select>
-
-                        <label for="playerCount">Nombre de joueurs :</label>
-                        <input
-                                type="number"
-                                id="playerCount"
-                                name="playerCount"
-                                readonly
-                        >
-
-                        <label for="boardSize">Taille du plateau :</label>
-                        <select name="boardSize" id="boardSize" required>
-
-                        </select>
-
-                        <div id="opponentsContainer">
-                            <label for="opponentIds">
-                                Adversaire :
-                            </label>
-
-                            <select name="opponentId" id="opponentIds">
-                                <option value="">-- Choisir un adversaire --</option>
-                                <option th:each="user : ${users}" th:if="${user.username != username}" th:value="${user.id}" th:text="${user.username}"></option>
+                            <select name="gameType" id="gameType" required>
+                                <option value="">-- Choisir un jeu --</option>
+                                <option th:each="listgame : ${listGames}"  th:value="${listgame.id}" th:text="${listgame.name}"></option>
                             </select>
 
+                            <label for="playerCount">Nombre de joueurs :</label>
+                            <input
+                                    type="number"
+                                    id="playerCount"
+                                    name="playerCount"
+                                    readonly
+                            >
+
+                            <label for="boardSize">Taille du plateau :</label>
+                            <select name="boardSize" id="boardSize" required>
+
+                            </select>
+
+                            <div id="opponentsContainer">
+                                <label for="opponentIds">
+                                    Adversaire :
+                                </label>
+
+                                <select name="opponentId" id="opponentIds">
+                                    <option value="">-- Choisir un adversaire --</option>
+                                    <option th:each="user : ${users}" th:if="${user.username != username}" th:value="${user.id}" th:text="${user.username}"></option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="game-form-actions">
+                                <button type="button" onclick="document.getElementById('createGameModal').close()">Annuler</button>
+                                <button type="submit">Créer</button>
+                            </div>
                         </div>
 
-
-                        <div>
-                            <button type="button" onclick="document.getElementById('createGameModal').close()">Annuler</button>
-                            <button type="submit">Créer</button>
-                        </div>
-                    </div>
-
-                </form>
+                    </form>
+                </section>
             </section>
+
         </dialog>
     </main>
 
@@ -121,13 +162,13 @@
                 addBoardSizeOption(size);
             }
 
-        } else if (gameType.value === "connectfour") {
+        } else if (gameType.value === "connect4") {
 
             playerCount.value = 2;
 
             addBoardSizeOption(7);
 
-        } else if (gameType.value === "taquin") {
+        } else if (gameType.value === "15 puzzle") {
 
             playerCount.value = 1;
 
@@ -152,6 +193,6 @@
 
     updateGameForm();
 </script>
-    <script src="https://kit.fontawesome.com/5bef22b054.js" crossorigin="anonymous"></script>
+
 </body>
 </html>

@@ -40,7 +40,7 @@ public class GameController {
 
         gameApiService.createGame(gameType, playerCount, boardSize, opponents, authentication);
 
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @GetMapping("/games/{gameId}")
@@ -105,7 +105,7 @@ public class GameController {
     public String deleteGame(@PathVariable UUID gameId, Authentication authentication) {
         gameApiService.deleteGame(gameId, authentication);
 
-        return "redirect:/";
+        return "redirect:/home";
     }
 
 }
