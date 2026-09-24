@@ -37,6 +37,27 @@
 
     </div>
 
+    <div th:if="${(winnerId != null and winnerId.equals(userId))
+          or (game.factoryId.equals('15 puzzle') and game.status.equals('TERMINATED'))}"
+         id="victory-popup"
+         class="victory-popup">
+
+        <div class="victory-content">
+            <button type="button" id="close-victory" class="close-victory">
+                ×
+            </button>
+
+            <div class="victory-icon">🏆</div>
+
+            <h2 th:if="${(winnerId != null and winnerId.equals(userId))}">VICTOIRE !</h2>
+            <h2 th:if="${(game.factoryId.equals('15 puzzle') and game.status.equals('TERMINATED'))}">VICTOIRE !</h2>
+
+            <p>Félicitations, vous avez gagné ! 🎉</p>
+        </div>
+
+        <div id="confetti-container"></div>
+    </div>
+
     <div id="game-board"
          th:data-game-id="${game.id}"
          th:data-size="${game.boardSize}"

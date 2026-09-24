@@ -265,3 +265,32 @@ async function playMove(from, to) {
     window.location.reload();
     return true;
 }
+/*Popup de victoire*/
+
+const victoryPopup = document.getElementById("victory-popup");
+
+if (victoryPopup) {
+
+    const confettiContainer =
+        document.getElementById("confetti-container");
+
+    for (let i = 0; i < 100; i++) {
+
+        const confetti = document.createElement("div");
+
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * 100 + "%";
+        confetti.style.animationDelay =
+            Math.random() * 2 + "s";
+
+        confettiContainer.appendChild(confetti);
+    }
+
+    const closeButton =
+        document.getElementById("close-victory");
+
+    closeButton.addEventListener("click", () => {
+        victoryPopup.remove();
+    });
+}
