@@ -13,6 +13,9 @@
                 <h1>
                     Bonjour <span th:text="${username}"></span> 👋
                 </h1>
+                <span class="user-role" sec:authorize="hasRole('USER')">Utilisateur</span>
+
+                <span class="user-role" sec:authorize="hasRole('ADMIN')">Administrateur</span>
 
                 <p class="welcome-text">
                     Retrouvez vos parties et commencez à jouer.

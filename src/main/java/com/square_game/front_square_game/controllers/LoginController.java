@@ -3,7 +3,6 @@ package com.square_game.front_square_game.controllers;
 import com.square_game.front_square_game.security.CustomUserDetails;
 import com.square_game.front_square_game.services.UserApiService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,7 +54,9 @@ public class LoginController {
                    json.get("userId").asString()
            );
 
-           CustomUserDetails userDetails = new CustomUserDetails(userId, username, token);
+           String role = json.get("role").asString();
+
+           CustomUserDetails userDetails = new CustomUserDetails(userId, username, token,  role);
 
            UsernamePasswordAuthenticationToken  authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
@@ -66,7 +67,6 @@ public class LoginController {
 
 
            request.getSession(true).setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
-
            return "redirect:/home";
        } catch(Exception e){
            System.out.println( "Erreur lors de la connexion : " + e.getMessage() );

@@ -369,6 +369,25 @@ dialog form > div > div:last-child {
     font-size: 70px;
 }
 
+.user-role {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    padding: 5px 12px;
+
+    background-color: var(--background-soft);
+    color: var(--primary);
+
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    vertical-align: middle;
+}
+
 
 /* =========================
    MES JEUX
