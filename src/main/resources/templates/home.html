@@ -56,7 +56,9 @@
 
             <div class="game-list" th:unless="${#lists.isEmpty(games)}">
                 <div class="game-card" th:each="game : ${games}">
-                    <h3 th:text="${game.getFactoryId()}"></h3>
+                    <h3 th:if="${game.getFactoryId() == 'tictactoe'}" th:text="Morpion"></h3>
+                    <h3 th:if="${game.getFactoryId() == '15 puzzle'}" th:text="Taquin"></h3>
+                    <h3 th:if="${game.getFactoryId() == 'connect4'}" th:text="'Puissance 4'"></h3>
                     <p>
                         ID :
                         <span th:text="${game.getId()}"></span>

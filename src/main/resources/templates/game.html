@@ -5,20 +5,35 @@
 
 <header th:replace="~{fragments/header :: header}"></header>
 
-<main>
+<main class="game_main">
 
-    <h2 th:text="${game.factoryId}"></h2>
+    <section class="game-header">
 
-    <p>
-        Status :
-        <span th:text="${game.status}"></span>
-    </p>
+        <div class="game-title">
+            <span class="game-eyebrow">PARTIE EN COURS</span>
+            <h2 th:if="${game.factoryId == 'tictactoe'}">Morpion</h2>
+            <h2 th:if="${game.factoryId == '15 puzzle'}" >Taquin</h2>
+            <h2 th:if="${game.factoryId == 'connect4'}" >Puissance 4</h2>
+        </div>
+
+        <div class="game-info">
+            <div class="game-info-item">
+                <span class="game-info-label">Status</span>
+                <strong th:text="${game.status}"></strong>
+            </div>
+            <div class="game-info">
+                <span class="game-info-label">Plateau</span>
+                <strong>
+                    <span th:text="${game.getBoardSize()}"></span>
+                    x
+                    <span th:text="${game.getBoardSize()}"></span>
+                </strong>
+            </div>
+        </div>
+
+    </section>
 
 
-    <p>
-        Taille du plateau :
-        <span th:text="${game.boardSize}"></span>
-    </p>
 
     <div th:if="${winnerId != null}" class="game-result">
 
@@ -56,24 +71,27 @@
         <div id="confetti-container"></div>
     </div>
 
-    <div id="turn-message"></div>
+    <div class="turn-message" id="turn-message"></div>
 
-    <div id="game-board"
-         th:data-game-id="${game.id}"
-         th:data-size="${game.boardSize}"
-         th:data-game-type="${game.factoryId}"
-         th:data-user-id="${userId}"
-         th:data-current-player-id="${game.currentPlayerId}"
-         class="game-board">
+    <section class="game-board-container">
+        <div id="game-board"
+             th:data-game-id="${game.id}"
+             th:data-size="${game.boardSize}"
+             th:data-game-type="${game.factoryId}"
+             th:data-user-id="${userId}"
+             th:data-current-player-id="${game.currentPlayerId}"
+             class="game-board">
 
-        <div th:each="entry : ${game.board}"
-             class="game-token"
-             th:data-x="${entry.value.position.x}"
-             th:data-y="${entry.value.position.y}"
-             th:text="${entry.value.name}">
+            <div th:each="entry : ${game.board}"
+                 class="game-token"
+                 th:data-x="${entry.value.position.x}"
+                 th:data-y="${entry.value.position.y}"
+                 th:text="${entry.value.name}">
+            </div>
+
         </div>
 
-    </div>
+    </section>
 
 </main>
 

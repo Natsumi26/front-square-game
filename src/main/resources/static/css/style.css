@@ -575,7 +575,7 @@ footer p {
 .login-form input:focus {
     outline: none;
 
-    border-color: var(--gradient-bordeaux);
+    border-color: var(--primary);
 
     box-shadow: 0 0 0 2px var(--primary-dark);
 }
@@ -590,7 +590,7 @@ footer p {
     border: none;
     border-radius: 6px;
 
-    background-color: var(--gradient-bordeaux);
+    background: var(--gradient-bordeaux);
     color: var(--text-light);
 
     font-size: 15px;
@@ -618,14 +618,193 @@ footer p {
 /* =========================
          Page de jeu
 ========================= */
+.game-main {
+    width: min(1100px, 92%);
+    margin: 45px auto 70px;
+}
+/* =========================
+         En-tête de partie
+========================= */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
 
-.game-board {
-    display: grid;
-    gap: 2px;
-    margin-top: 30px;
+    padding: 30px 35px;
 
+    background: var(--gradient-bordeaux);
+    color: var(--text-light);
+
+    border-radius: 20px;
+
+    box-shadow: 0 10px 30px var(--primary-dark);
+}
+.game-title {
+    flex: 1;
 }
 
+
+.game-eyebrow {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    opacity: 0.75;
+}
+.game-title h2 {
+    margin: 0;
+
+    font-size: 38px;
+}
+
+
+.game-info {
+    display: flex;
+    gap: 12px;
+}
+
+
+.game-info-item {
+    min-width: 110px;
+
+    padding: 14px 18px;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.game-info-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    opacity: 0.75;
+}
+
+
+.game-info-item strong {
+    font-size: 16px;
+}
+
+/* =========================
+         Résultat
+========================= */
+.game-result {
+    margin: 25px auto;
+
+    padding: 20px 25px;
+
+    max-width: 600px;
+
+    background: white;
+
+    border-left: 5px solid var(--primary);
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 20px rgba(74, 14, 24, 0.12);
+
+    text-align: center;
+}
+
+
+.game-result h2 {
+    margin-bottom: 8px;
+
+    color: var(--primary);
+}
+
+
+.game-result p {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* =========================
+         Tour du joueur
+========================= */
+
+.turn-message {
+    width: fit-content;
+
+    margin: 30px auto 20px;
+
+    padding: 12px 25px;
+
+    border-radius: 30px;
+
+    background: var(--background-soft);
+
+    color: var(--primary-dark);
+
+    font-size: 16px;
+    font-weight: bold;
+
+    box-shadow: 0 3px 10px var(--primary-dark);
+}
+
+
+/* =========================
+         Plateau
+========================= */
+
+.game-board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 35px;
+
+    margin-top: 20px;
+
+    background: white;
+
+    border-radius: 24px;
+
+    box-shadow: 0 8px 30px rgba(74, 14, 24, 0.15);
+
+    overflow-x: auto;
+}
+.game-board {
+    display: grid;
+
+    gap: 3px;
+
+    margin: 0;
+
+    padding: 15px;
+
+    background: var(--primary-dark);
+
+    border-radius: 15px;
+
+    box-shadow:
+            0 8px 20px rgba(74, 14, 24, 0.3),
+            inset 0 0 0 3px var(--primary);
+}
+/* =========================
+         Cases
+========================= */
 .game-cell {
     width: 80px;
     height: 80px;
@@ -638,6 +817,10 @@ footer p {
     border: 1px solid var(--primary-dark);
 
     font-size: 14px;
+
+    transition:
+            background-color 0.2s,
+            transform 0.2s;
 }
 
 .game-cell.possible-move {
@@ -647,6 +830,20 @@ footer p {
 
 .game-cell.possible-move:hover {
     background-color: var(--primary-dark);
+    transform: scale(0.95);
+}
+
+/* =========================
+         Jetons
+========================= */
+
+.game-token {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
 }
 
 /* =========================
@@ -989,6 +1186,45 @@ footer p {
 
     .welcome-icon {
         display: none;
+    }
+    .game-main {
+        width: 94%;
+        margin: 25px auto 50px;
+    }
+
+    .game-header {
+        flex-direction: column;
+        align-items: stretch;
+
+        padding: 25px 20px;
+
+        text-align: center;
+    }
+
+    .game-title h2 {
+        font-size: 30px;
+    }
+
+    .game-info {
+        justify-content: center;
+    }
+
+    .game-info-item {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .game-board-container {
+        padding: 20px 10px;
+    }
+
+    .game-board {
+        padding: 10px;
+    }
+
+    .game-cell {
+        width: 60px;
+        height: 60px;
     }
 
 }
