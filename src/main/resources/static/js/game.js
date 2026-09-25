@@ -3,22 +3,130 @@ const gameId = board.dataset.gameId;
 const size = Number(board.dataset.size);
 const gameType = board.dataset.gameType;
 const userId = board.dataset.userId;
-const currentPlayerId = board.dataset.currentPlayerId;
+let currentPlayerId = board.dataset.currentPlayerId;
 
-const isMyTurn = userId === currentPlayerId;
+function isMyTurn() {
+    return userId === currentPlayerId;
+}
 
 const turnMessage = document.getElementById("turn-message");
 
-if (isMyTurn) {
-    turnMessage.textContent = "🟢 À votre tour";
-} else {
-    turnMessage.textContent = "🔴 Tour de l'adversaire";
+function updateTurnMessage() {
+
+    if (isMyTurn()) {
+        turnMessage.textContent = "🟢 À votre tour";
+    } else {
+        turnMessage.textContent = "🔴 Tour de l'adversaire";
+    }
 }
 
-console.log("Type de jeu :", gameType);
-console.log("userId :", userId);
-console.log("Joueur actuel :", currentPlayerId);
-console.log("Est-ce mon tour ?", isMyTurn);
+updateTurnMessage();
+
+const client = new StompJs.Client({
+    brokerURL: 'ws://localhost:8080/ws',
+    reconnectDelay: 5000,
+
+    debug: function (str) {
+        console.log(str);
+    }
+});
+
+client.onConnect = function () {
+
+    console.log("✅ WebSocket connecté pour la partie :", gameId);
+
+    client.subscribe(
+        `/topic/games/${gameId}`,
+        function (message) {
+
+            console.log("📨 Mise à jour reçue :", message.body);
+
+            const updatedGame = JSON.parse(message.body);
+
+            console.log("🎮 Partie mise à jour :", updatedGame);
+
+            updateBoard(updatedGame);
+        }
+    );
+};
+
+client.onWebSocketError = function (error) {
+    console.error("❌ Erreur WebSocket :", error);
+};
+
+client.onStompError = function (frame) {
+    console.error("❌ Erreur STOMP :", frame);
+};
+
+client.activate();
+
+function updateBoard(updatedGame) {
+
+    // On vide toutes les cases
+    const cells = board.querySelectorAll(".game-cell");
+
+    cells.forEach(cell => {
+        cell.innerHTML = "";
+        cell.classList.remove("possible-move");
+    });
+
+    // On parcourt tous les jetons présents sur le plateau
+    Object.values(updatedGame.board).forEach(token => {
+
+        if (!token.position) {
+            return;
+        }
+
+        const x = token.position.x;
+        const y = token.position.y;
+
+        const cell = board.querySelector(
+            `.game-cell[data-x="${x}"][data-y="${y}"]`
+        );
+
+        if (!cell) {
+            return;
+        }
+
+        switch (token.name) {
+
+            case "Y":
+                cell.innerHTML =
+                    '<i class="fa-solid fa-circle fa-2xl" style="color: rgb(255, 212, 59);"></i>';
+                break;
+
+            case "R":
+                cell.innerHTML =
+                    '<i class="fa-solid fa-circle fa-2xl" style="color: rgb(255, 59, 59);"></i>';
+                break;
+
+            case "X":
+                cell.innerHTML =
+                    '<i class="fa-solid fa-x fa-2xl"></i>';
+                break;
+
+            case "0":
+                cell.innerHTML =
+                    '<i class="fa-solid fa-o fa-2xl"></i>';
+                break;
+
+            default:
+                cell.textContent = token.name;
+                cell.style.color = "white";
+                break;
+        }
+    });
+
+    // Mise à jour du joueur courant
+    currentPlayerId = updatedGame.currentPlayerId;
+
+    // Mise à jour du message
+    updateTurnMessage();
+
+    if (updatedGame.status === "TERMINATED") {
+        window.location.reload();
+    }
+}
 
 
 
@@ -167,6 +275,8 @@ tokens.forEach(token => {
                 break;
             default:
                 cell.textContent = token.textContent;
+                cell.style.color = "white";
+                break;
         }
     }
 
@@ -205,7 +315,7 @@ async function getPossibleMovesForToken(x, y) {
 
 function highlightPossibleMoves(possibleMoves) {
 
-    if (!isMyTurn) {
+    if (!isMyTurn()) {
         return;
     }
 
@@ -339,8 +449,6 @@ async function playMove(from, to) {
         return false;
     }
 
-    console.log("Coup joué !");
-    window.location.reload();
     return true;
 }
 /*Popup de victoire*/

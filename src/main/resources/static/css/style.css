@@ -190,25 +190,6 @@ h3 {
 
     flex-wrap: wrap;
 }
-
-.game-card {
-    width: 280px;
-
-    padding: 30px;
-
-    background: var(--primary-extra-light);
-
-    border-radius: 15px;
-
-    box-shadow: 0 5px 20px var(--primary-dark);
-
-    transition: 0.2s;
-}
-
-.game-card:hover {
-    transform: translateY(-5px);
-}
-
 .game-card h3 {
     margin-bottom: 15px;
 }
@@ -221,6 +202,199 @@ h3 {
 .game-icon {
     font-size: 45px;
     margin-bottom: 15px;
+}
+
+.game-card {
+    width: 280px;
+    height: 360px;
+    perspective: 1000px;
+}
+
+.game-card-inner {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    transform-style: preserve-3d;
+
+    transition: transform 0.7s ease;
+}
+
+.game-card:hover .game-card-inner {
+    transform: rotateY(180deg);
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+.game-card-front,
+.game-card-back {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    border-radius: 22px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    box-shadow: 0 12px 30px rgba(74, 14, 24, 0.18);
+}
+.game-card-front {
+    background: white;
+
+    border: 1px solid var(--border-light);
+}
+
+.game-card-front h2 {
+    margin: 15px 0 10px;
+
+    color: var(--primary-dark);
+
+    font-size: 28px;
+}
+
+.game-card-front p {
+    max-width: 210px;
+
+    margin: 0;
+
+    color: var(--text-dark);
+
+    line-height: 1.5;
+}
+
+.game-card-icon {
+    font-size: 65px;
+
+    margin-bottom: 5px;
+}
+
+.game-card-hint {
+    margin-top: 25px;
+
+    color: var(--primary-light);
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+.game-card-back {
+    background: var(--gradient-bordeaux);
+
+    color: var(--text-light);
+
+    transform: rotateY(180deg);
+}
+
+.game-card-back h3 {
+    margin: 0 0 20px;
+
+    font-size: 24px;
+}
+/* =========================
+   Mini plateau tictactoe
+========================= */
+.mini-tictactoe {
+    display: grid;
+
+    grid-template-columns: repeat(3, 48px);
+    grid-template-rows: repeat(3, 48px);
+
+    margin-bottom: 25px;
+}
+
+.mini-tictactoe div {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    border-right: 2px solid rgba(255, 255, 255, 0.65);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.65);
+}
+
+/* Supprime les traits inutiles à droite */
+
+.mini-tictactoe div:nth-child(3n) {
+    border-right: none;
+}
+
+/* Supprime les traits inutiles en bas */
+
+.mini-tictactoe div:nth-child(n + 7) {
+    border-bottom: none;
+}
+/* =========================
+   Mini plateau taquin
+========================= */
+.mini-taquin {
+    display: grid;
+    grid-template-columns: repeat(3, 48px);
+    grid-template-rows: repeat(3, 48px);
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.mini-taquin div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary);
+
+    border-radius: 6px;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.mini-taquin div:empty {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================
+   Mini plateau connect4
+========================= */
+.mini-connect4 {
+    display: grid;
+    grid-template-columns: repeat(7, 28px);
+    grid-template-rows: repeat(4, 28px);
+    gap: 5px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.mini-connect4 div {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
 }
 /* =========================
    Game action
