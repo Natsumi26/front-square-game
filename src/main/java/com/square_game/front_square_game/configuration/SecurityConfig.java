@@ -13,6 +13,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers(
                         "/",
+                        "/register",
                         "/login",
                         "/css/**",
                         "/static/js/**",
@@ -22,7 +23,7 @@ public class SecurityConfig {
         )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 );
         return http.build();

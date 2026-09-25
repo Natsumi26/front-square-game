@@ -2,23 +2,26 @@
    Général
 ========================= */
 :root {
-    --primary: #7c3aed;
-    --primary-dark: #4c1d95;
-    --primary-light: #a78bfa;
-    --primary-extra-light: #d8ccf8;
+    --primary: #7B1E2B;
+    --primary-dark: #4A0E18;
+    --primary-light: #A63D4D;
+    --primary-extra-light: #F8F4F5;
 
-    --gradient-purple: linear-gradient(
+    --gradient-bordeaux: linear-gradient(
             135deg,
-            #4c1d95,
-            #7c3aed,
-            #a855f7
+            #4A0E18,
+            #7B1E2B,
+            #A63D4D
     );
 
-    --text-dark: #1f2937;
+    --text-dark: #2B171B;
     --text-light: #ffffff;
-    --color-delete: #dc3545;
-    --color-delete-hover: #bb2d3b;
 
+    --color-delete: #8B2635;
+    --color-delete-hover: #6E1D2A;
+    --border-light: #D8C2C6;
+    --background-soft: #F3E7E9;
+    --color-possible: #ae6471;
 }
 
 * {
@@ -35,9 +38,7 @@ body {
 }
 
 main {
-    max-width: 1100px;
     margin: 40px auto;
-    padding: 0 20px;
 }
 
 h1,
@@ -59,7 +60,7 @@ h3 {
 
     padding: 15px 30px;
 
-    background: var(--gradient-purple);
+    background: var(--gradient-bordeaux);
     color: var(--text-light);
 }
 
@@ -88,6 +89,10 @@ h3 {
     background: var(--primary-light);
 }
 
+.navbar button {
+    margin-top: 0;
+}
+
 /* =========================
    HERO
    ========================= */
@@ -95,7 +100,7 @@ h3 {
 .hero {
     text-align: center;
 
-    padding: 100px 20px;
+    margin: 10% 0;
 
     background: var(--primary-extra-light);
 }
@@ -127,7 +132,7 @@ h3 {
 
     padding: 14px 25px;
 
-    background: var(--gradient-purple);
+    background: var(--gradient-bordeaux);
     color: var(--text-light);
 
     border: none;
@@ -168,6 +173,8 @@ h3 {
     padding: 70px 40px;
     background: var(--primary-light);
     text-align: center;
+    border-radius: 35px;
+    margin: 0 5%;
 }
 
 
@@ -274,7 +281,7 @@ select {
 
     padding: 10px;
 
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
 
     font-size: 14px;
@@ -283,7 +290,7 @@ select {
 input:focus,
 select:focus {
     outline: none;
-    border-color: var(--gradient-purple);
+    border-color: var(--primary);
 }
 
 
@@ -323,7 +330,7 @@ dialog form > div > div:last-child {
 
     border-radius: 20px;
 
-    background: var(--gradient-purple);
+    background: var(--gradient-bordeaux);
 
     color: var(--text-light);
 
@@ -413,7 +420,7 @@ dialog form > div > div:last-child {
 
     background: white;
 
-    border: 2px dashed #ddd6fe;
+    border: 2px dashed var(--border-light);
     border-radius: 20px;
 }
 
@@ -430,7 +437,7 @@ dialog form > div > div:last-child {
 
     border-radius: 50%;
 
-    background: #ede9fe;
+    background: var(--background-soft);
 
     font-size: 40px;
 }
@@ -466,7 +473,7 @@ dialog form > div > div:last-child {
     padding: 12px 25px;
     margin-top: 20px;
     border-radius: 10px;
-    background: var(--gradient-purple);
+    background: var(--gradient-bordeaux);
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -493,7 +500,7 @@ footer {
 
     text-align: center;
 
-    background: var(--gradient-purple);
+    background: var(--gradient-bordeaux);
     color: var(--text-light);
 }
 
@@ -535,11 +542,12 @@ footer p {
 }
 
 .login-container p {
-    margin-bottom: 25px;
+    margin-top: 5px;
+    margin-bottom: 20px;
 
     text-align: center;
 
-    color: #666;
+    color: var(--text-light);
 }
 
 .login-form {
@@ -558,7 +566,7 @@ footer p {
 
     padding: 12px;
 
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
 
     font-size: 15px;
@@ -567,7 +575,7 @@ footer p {
 .login-form input:focus {
     outline: none;
 
-    border-color: var(--gradient-purple);
+    border-color: var(--gradient-bordeaux);
 
     box-shadow: 0 0 0 2px var(--primary-dark);
 }
@@ -582,7 +590,7 @@ footer p {
     border: none;
     border-radius: 6px;
 
-    background-color: var(--gradient-purple);
+    background-color: var(--gradient-bordeaux);
     color: var(--text-light);
 
     font-size: 15px;
@@ -591,7 +599,7 @@ footer p {
 }
 
 .login-form button:hover {
-    background-color: var(--primary-light);
+    background-color: var(--primary-dark);
 }
 
 .login-error {
@@ -633,12 +641,12 @@ footer p {
 }
 
 .game-cell.possible-move {
-    background-color: #dfd9f7;
+    background-color: var(--color-possible);
     cursor: pointer;
 }
 
 .game-cell.possible-move:hover {
-    background-color: #cabff1;
+    background-color: var(--primary-dark);
 }
 
 /* =========================
@@ -653,7 +661,7 @@ footer p {
     justify-content: center;
     align-items: center;
 
-    background: var(--gradient-purple);
+    background: var(--gradient-bordeaux);
 }
 
 .victory-content {
@@ -754,7 +762,7 @@ footer p {
    ========================= */
 
 .how-it-works {
-    padding: 70px 40px;
+    margin: 10% 0;
 
     background: var(--primary-extra-light);
 
@@ -871,7 +879,7 @@ footer p {
 
     box-sizing: border-box;
 
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
 
     background-color: var(--text-light);
@@ -928,13 +936,13 @@ footer p {
 
 /* Bouton Créer */
 #createGameModal button[type="submit"] {
-    background: var(--gradient-purple);
+    background: var(--gradient-bordeaux);
 
     color: var(--text-light);
 }
 
 #createGameModal button[type="submit"]:hover {
-    background-color: var(--primary-light);
+    background-color: var(--primary-dark);
 }
 
 

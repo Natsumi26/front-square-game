@@ -165,6 +165,8 @@ tokens.forEach(token => {
             case "0":
                 cell.innerHTML = '<i class="fa-solid fa-o fa-2xl"></i>';
                 break;
+            default:
+                cell.textContent = token.textContent;
         }
     }
 
@@ -243,13 +245,14 @@ function highlightPossibleMoves(possibleMoves) {
         // =========================
         // TAQUIN
         // =========================
-        if(gameType === "taquin") {
+        if(gameType === "15 puzzle") {
             const cell = board.querySelector(
                 `.game-cell[data-x="${move.x}"][data-y="${move.y}"]`
             );
 
             if (cell) {
                 cell.classList.add("possible-move");
+                console.log("ajout de la class");
 
                 const from = {
                     x: selectedPosition.x,

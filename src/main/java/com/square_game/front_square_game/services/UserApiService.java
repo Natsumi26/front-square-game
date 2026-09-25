@@ -1,6 +1,7 @@
 package com.square_game.front_square_game.services;
 
 import com.square_game.front_square_game.dto.LoginRequest;
+import com.square_game.front_square_game.dto.RegisterRequest;
 import com.square_game.front_square_game.dto.UserDto;
 import com.square_game.front_square_game.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,4 +46,17 @@ public class UserApiService {
                 .body(new ParameterizedTypeReference<Collection<UserDto>>() {});
     }
 
+    public void register(String username, String password, String email) {
+        RegisterRequest registerRequest = new RegisterRequest();
+
+        registerRequest.setUsername(username);
+        registerRequest.setPassword(password);
+        registerRequest.setEmail(email);
+
+        restClient.post()
+                .uri("/users")
+                .body(registerRequest)
+                .retrieve()
+                .toBodilessEntity();
+    }
 }
