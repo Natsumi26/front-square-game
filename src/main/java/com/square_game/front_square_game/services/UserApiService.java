@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @Service
 public class UserApiService {
@@ -56,6 +57,17 @@ public class UserApiService {
         restClient.post()
                 .uri("/users")
                 .body(registerRequest)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void deleteUser(Authentication authentication, UUID userId) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        String token = customUserDetails.getToken();
+
+        restClient.delete()
+                .uri("/users/" + userId)
+                .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .toBodilessEntity();
     }

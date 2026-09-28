@@ -67,6 +67,10 @@ public class LoginController {
 
 
            request.getSession(true).setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+           if ("ROLE_ADMIN".equals(role)) {
+               return "redirect:/admin";
+           }
+
            return "redirect:/home";
        } catch(Exception e){
            System.out.println( "Erreur lors de la connexion : " + e.getMessage() );

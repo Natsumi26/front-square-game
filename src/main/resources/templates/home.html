@@ -62,19 +62,19 @@
                     <h3 th:if="${game.getFactoryId() == 'tictactoe'}" th:text="Morpion"></h3>
                     <h3 th:if="${game.getFactoryId() == '15 puzzle'}" th:text="Taquin"></h3>
                     <h3 th:if="${game.getFactoryId() == 'connect4'}" th:text="'Puissance 4'"></h3>
-                    <p>
-                        ID :
-                        <span th:text="${game.getId()}"></span>
+
+                    <p class="game-status">
+                        Status :
+                        <span class="status-terminated" th:if="${game.getStatus() == 'TERMINATED'}" >Terminé</span>
+                        <span class="status-ongoing" th:if="${game.getStatus() == 'ONGOING'}" >En cours</span>
                     </p>
 
-                    <p>
-                        Status :
-                        <span th:text="${game.getStatus()}"></span>
-                    </p>
                     <div class="game-actions">
+
                         <a class="btn" th:href="@{/games/{id}(id=${game.id})}">
                             Jouer
                         </a>
+
                         <form th:action="@{/games/{id}/delete(id=${game.id})}"
                               method="post"
                               style="display:inline"
@@ -128,7 +128,7 @@
 
                                 <select name="opponentId" id="opponentIds">
                                     <option value="">-- Choisir un adversaire --</option>
-                                    <option th:each="user : ${users}" th:if="${user.username != username}" th:value="${user.id}" th:text="${user.username}"></option>
+                                    <option th:each="user : ${users}" th:if="${(user.username != username) and (user.getRole() != 'ROLE_ADMIN')}" th:value="${user.id}" th:text="${user.username}"></option>
                                 </select>
 
                             </div>

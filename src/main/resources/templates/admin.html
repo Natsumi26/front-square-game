@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administration</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<main class="admin-container">
+    <section class="admin-header">
+
+        <div>
+            <span class="admin-label">ESPACE ADMINISTRATEUR</span>
+
+            <h2>
+                Gestion des utilisateurs
+            </h2>
+
+            <p>
+                Consultez et gérez les utilisateurs de l'application.
+            </p>
+        </div>
+
+        <div class="admin-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+    </section>
+
+
+    <section class="admin-users-section">
+
+        <div class="admin-section-title">
+
+            <div>
+                <span class="section-label">UTILISATEURS</span>
+
+                <h2>
+                    Liste des utilisateurs
+                </h2>
+            </div>
+
+            <span class="user-count"
+                  th:text="${#lists.size(users) + ' utilisateur(s)'}">
+                0 utilisateur(s)
+            </span>
+
+        </div>
+
+
+        <div class="admin-users">
+
+            <div class="admin-user"
+                 th:each="user : ${users}">
+
+                <div class="admin-user-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="user-info">
+
+                    <strong th:text="${user.username}">
+                        Username
+                    </strong>
+
+                    <span th:text="${user.email}">
+                        email
+                    </span>
+
+                </div>
+
+                <span class="admin-user-role"
+                      th:text="${user.role}">
+                    ROLE_USER
+                </span>
+
+                <form th:action="@{/admin/users/{id}/delete(id=${user.id})}"
+                      method="post"
+                      onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
+
+                    <button type="submit"
+                            class="delete-button">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

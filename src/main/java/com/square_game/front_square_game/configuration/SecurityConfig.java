@@ -19,6 +19,7 @@ public class SecurityConfig {
                         "/static/js/**",
                         "/images/**"
                 ).permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         )
                 .logout(logout -> logout
