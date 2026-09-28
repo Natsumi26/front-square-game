@@ -58,10 +58,18 @@
 
 
             <div class="game-list" th:unless="${#lists.isEmpty(games)}">
+
                 <div class="game-card" th:each="game : ${games}">
                     <h3 th:if="${game.getFactoryId() == 'tictactoe'}" th:text="Morpion"></h3>
                     <h3 th:if="${game.getFactoryId() == '15 puzzle'}" th:text="Taquin"></h3>
                     <h3 th:if="${game.getFactoryId() == 'connect4'}" th:text="'Puissance 4'"></h3>
+
+                    <p th:if="${game.opponentUsername != null}">
+                        Adversaire :
+                        <strong th:text="${game.opponentUsername}">
+                            Adversaire
+                        </strong>
+                    </p>
 
                     <p class="game-status">
                         Status :
@@ -99,7 +107,7 @@
                 <h1>Créer une partie</h1>
 
                 <section>
-                    <form method="POST" action="/games">
+                    <form id="createGameForm" method="POST" action="/games">
                         <div>
                             <label for="gameType">Type de jeu : </label>
 
@@ -135,7 +143,7 @@
 
 
                             <div class="game-form-actions">
-                                <button type="button" onclick="document.getElementById('createGameModal').close()">Annuler</button>
+                                <button type="button" onclick="document.getElementById('createGameForm').reset(); document.getElementById('createGameModal').close()">Annuler</button>
                                 <button type="submit">Créer</button>
                             </div>
                         </div>

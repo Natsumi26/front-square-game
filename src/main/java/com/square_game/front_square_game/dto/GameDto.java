@@ -22,6 +22,9 @@ public class GameDto {
 
     private List<TokenDto> removedTokens;
 
+    private String opponentUsername;
+
+
     public UUID getId() {
         return id;
     }
@@ -92,5 +95,13 @@ public class GameDto {
 
     public void setRemovedTokens(List<TokenDto> removedTokens) {
         this.removedTokens = removedTokens;
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
+    }
+
+    public void setOpponentUsername(String opponentUsername) {
+        this.opponentUsername = opponentUsername;
     }
 }

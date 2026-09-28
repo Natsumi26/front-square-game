@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class HomeController {
@@ -42,6 +43,24 @@ public class HomeController {
 
         Collection<GameTypeDto> listGames = gameApiService.getListGame();
 
+        UUID currentUserId = customUserDetails.getUserId();
+
+        // Cherche le username de l'adversaire pour chaque partie
+        for (GameDto game : games) {
+
+            game.getPlayerIds().stream()
+                    .filter(playerId -> !playerId.equals(currentUserId))
+                    .findFirst()
+                    .flatMap(playerId ->
+                            users.stream()
+                                    .filter(user -> user.getId().equals(playerId))
+                                    .findFirst()
+                    )
+                    .ifPresent(user ->
+                            game.setOpponentUsername(user.getUsername())
+                    );
+        }
+
         model.addAttribute("username",customUserDetails.getUsername());
         model.addAttribute("games", games);
         model.addAttribute("users", users);
@@ -49,5 +68,7 @@ public class HomeController {
 
         return "home";
     }
+
+
 
 }

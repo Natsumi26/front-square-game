@@ -517,7 +517,7 @@ form div {
 
 label {
     display: block;
-    margin-bottom: 6px;
+    margin: 6px 0;
 
     font-weight: bold;
 }
